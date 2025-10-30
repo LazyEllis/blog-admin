@@ -77,27 +77,25 @@ const Comment = ({
               </div>
             </div>
 
-            {user?.id === comment.author.id && (
-              <Menu>
-                <MenuButton>
-                  <span className="sr-only">Open comment actions</span>
-                  <Ellipsis />
-                </MenuButton>
+            <Menu>
+              <MenuButton>
+                <span className="sr-only">Open comment actions</span>
+                <Ellipsis />
+              </MenuButton>
 
-                <MenuItems>
-                  <MenuItem>
-                    <button className={styles.action} onClick={onSelectUpdate}>
-                      Edit
-                    </button>
-                  </MenuItem>
-                  <MenuItem>
-                    <button className={styles.delete} onClick={onSelectDelete}>
-                      Delete
-                    </button>
-                  </MenuItem>
-                </MenuItems>
-              </Menu>
-            )}
+              <MenuItems>
+                <MenuItem>
+                  <button className={styles.action} onClick={onSelectUpdate}>
+                    Edit
+                  </button>
+                </MenuItem>
+                <MenuItem>
+                  <button className={styles.delete} onClick={onSelectDelete}>
+                    Delete
+                  </button>
+                </MenuItem>
+              </MenuItems>
+            </Menu>
           </div>
           <div className={styles.content}>{comment.content}</div>
           {isDeleting && (

@@ -1,12 +1,9 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { TriangleAlert } from "lucide-react";
-import { useToken } from "../hooks/useToken";
 import { useMutation } from "../hooks/useMutation";
 import { createPostComment } from "../lib/BlogService";
 import CommentForm from "./CommentForm";
 import Comment from "./Comment";
-import Alert from "./Alert";
 import ErrorAlert from "./ErrorAlert";
 import Loader from "./Loader";
 import styles from "../styles/CommentSection.module.css";
@@ -20,7 +17,6 @@ const CommentSection = ({
   onDelete,
   className,
 }) => {
-  const { token } = useToken();
   const { id } = useParams();
 
   const [selectedCommentStatus, setSelectedCommentStatus] = useState({
@@ -71,21 +67,12 @@ const CommentSection = ({
           : `Comments (${comments.length})`}
       </h2>
 
-      {token ? (
-        <CommentForm
-          mutate={handleCreate}
-          error={createComment.error}
-          isLoading={createComment.isLoading}
-          className={styles.form}
-        />
-      ) : (
-        <Alert className={styles.warning}>
-          <div>
-            <TriangleAlert size={20} />
-          </div>
-          <div>You must be logged in to comment.</div>
-        </Alert>
-      )}
+      <CommentForm
+        mutate={handleCreate}
+        error={createComment.error}
+        isLoading={createComment.isLoading}
+        className={styles.form}
+      />
 
       <div className={comments.length > 0 ? styles.comments : null}>
         {comments.map((comment) => (
