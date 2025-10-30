@@ -1,0 +1,57 @@
+@font-face {
+  font-display: swap;
+  font-family: "Playfair Display";
+  font-style: normal;
+  font-weight: 700;
+  src: url("../assets/playfair-display-v40-latin-700.woff2") format("woff2");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  src: url("../assets/inter-v20-latin-regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  src: url("../assets/inter-v20-latin-700.woff2") format("woff2");
+}
+
+:root {
+  --spacing: 0.25rem;
+  --color-base: #fff;
+  --color-text: #000;
+  --color-accent: #6b6b6b;
+  --color-action: #1a8917;
+  --color-action-hover: #156d12;
+  --color-input: #f2f2f2;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+#root {
+  font-family: "Inter";
+  display: flex;
+  flex-direction: column;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}

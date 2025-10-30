@@ -1,0 +1,50 @@
+.dialog {
+  position: relative;
+  z-index: 10;
+}
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: color-mix(
+    in oklab,
+    oklch(55.1% 0.027 264.364) 75%,
+    transparent
+  );
+}
+
+.panelOuter {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  width: 100vw;
+  overflow-y: auto;
+}
+
+.panelInner {
+  display: flex;
+  min-height: 100%;
+  align-items: center;
+  justify-content: center;
+  padding: calc(var(--spacing) * 4);
+  text-align: center;
+
+  @media (width >= 40rem) {
+    padding: 0;
+  }
+}
+
+.panel {
+  position: relative;
+  overflow: hidden;
+  text-align: left;
+  border-radius: 0.5rem;
+  background-color: var(--color-base);
+  box-shadow:
+    0 0 #0000,
+    0 0 #0000,
+    0 0 #0000,
+    0 0 #0000,
+    0 20px 25px -5px #0000001a,
+    0 8px 10px -6px #0000001a;
+}

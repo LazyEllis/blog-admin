@@ -1,0 +1,16 @@
+.spin {
+  animation: spin 1s linear infinite;
+  align-self: center;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+main:has(.centered) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

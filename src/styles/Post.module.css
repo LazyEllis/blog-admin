@@ -1,0 +1,33 @@
+.article,
+.comments {
+  padding-inline: 24px;
+
+  > * {
+    @media (width >= 40rem) {
+      margin-inline: auto;
+      width: 100%;
+      max-width: 680px;
+    }
+  }
+}
+
+.article {
+  padding-block: 32px;
+  border-bottom: 1px solid var(--color-input);
+  margin-bottom: 64px;
+}
+
+.header {
+  margin-bottom: 24px;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.metadata {
+  font-size: 0.875rem;
+  color: var(--color-accent);
+  margin-top: 12px;
+}

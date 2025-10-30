@@ -1,0 +1,35 @@
+.alert {
+  background-color: #fef2f2;
+  display: flex;
+}
+
+.iconContainer {
+  flex-grow: 0;
+  margin-right: 0.75rem;
+  color: #ff6467;
+}
+
+.heading {
+  font-weight: 700;
+  color: #9f0712;
+}
+
+.errorList {
+  margin-top: 0.5rem;
+  list-style-type: disc;
+  padding-left: 1.25rem;
+  color: #c10007;
+
+  > *:not(:last-child) {
+    margin-bottom: 4px;
+  }
+}
+
+.message {
+  color: #c10007;
+}
+
+.routeError {
+  margin-inline: 24px;
+  margin-top: 24px;
+}

@@ -1,0 +1,28 @@
+.centered {
+  display: flex;
+
+  > * {
+    margin: auto;
+  }
+}
+
+.heading {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.warning {
+  display: flex;
+  background-color: #fefce8;
+  color: #a65f00;
+  gap: 0.75rem;
+  margin-block: 24px;
+}
+
+.form {
+  padding-block: 32px;
+}
+
+.comments {
+  border-top: 1px solid var(--color-input);
+}

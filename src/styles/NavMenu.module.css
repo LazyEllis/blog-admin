@@ -1,0 +1,48 @@
+.dropdownLink {
+  cursor: pointer;
+
+  &:hover {
+    color: var(--color-text);
+  }
+}
+
+.navList {
+  display: none;
+
+  @media (width >= 40rem) {
+    display: flex;
+    gap: 16px;
+
+    > *:not(.button) {
+      color: var(--color-accent);
+
+      &:hover {
+        color: var(--color-text);
+      }
+    }
+  }
+}
+
+.button {
+  background-color: var(--color-action);
+  color: var(--color-base);
+  padding: 8px 12px;
+  border-radius: 0.375rem;
+
+  &:hover {
+    background-color: var(--color-action-hover);
+  }
+}
+
+.hamburger {
+  display: block;
+
+  @media (width >= 40rem) {
+    display: none;
+  }
+}
+
+.actionLink {
+  --color-text: var(--color-action-hover);
+  composes: dropdownLink;
+}
