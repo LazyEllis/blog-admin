@@ -1,4 +1,4 @@
-import { Link, Outlet } from "react-router-dom";
+import { Link, Navigate, Outlet, useNavigate } from "react-router-dom";
 import { useQuery } from "../hooks/useQuery";
 import { useToken } from "../hooks/useToken";
 import { getProfile } from "../lib/BlogService";
@@ -7,8 +7,12 @@ import NavMenu from "../components/NavMenu";
 
 const Layout = () => {
   const { token, setToken } = useToken();
+  const navigate = useNavigate();
 
-  const handleSignOut = () => setToken(null);
+  const handleSignOut = () => {
+    setToken(null);
+    navigate("/sign-in");
+  };
 
   const {
     data: user,
@@ -16,11 +20,12 @@ const Layout = () => {
     isLoading,
   } = useQuery({
     queryFn: getProfile,
-    enabled: !!token,
     onError: (error) => {
       if (error.message === "Unauthorized") handleSignOut();
     },
   });
+
+  if (!token) return <Navigate to="/sign-in" />;
 
   return (
     <>

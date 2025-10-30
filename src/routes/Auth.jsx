@@ -1,54 +1,30 @@
 import { useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useMutation } from "../hooks/useMutation";
 import { useToken } from "../hooks/useToken";
-import { createUser, generateToken } from "../lib/BlogService";
+import { generateToken } from "../lib/BlogService";
 import Input from "../components/Input";
 import ErrorAlert from "../components/ErrorAlert";
 import styles from "../styles/Auth.module.css";
 
-const signInFields = [
+const fields = [
   { label: "Email", name: "email", type: "email" },
   { label: "Password", name: "password", type: "password" },
 ];
 
-const signUpFields = [
-  { label: "Display Name", name: "name", type: "text" },
-  ...signInFields,
-  { label: "Confirm Password", name: "passwordConfirmation", type: "password" },
-];
-
-const initialSignInData = {
-  email: "",
-  password: "",
-};
-
-const initialSignUpData = {
-  name: "",
-  ...initialSignInData,
-  passwordConfirmation: "",
-};
-
-const Auth = ({ isSignUp }) => {
+const Auth = () => {
   const navigate = useNavigate();
   const { token, setToken } = useToken();
 
-  const [formData, setFormData] = useState(
-    isSignUp ? initialSignUpData : initialSignInData,
-  );
+  const [formData, setFormData] = useState({ email: "", password: "" });
 
   const { mutate, error, isLoading } = useMutation({
-    mutationFn: isSignUp ? createUser : generateToken,
+    mutationFn: generateToken,
     onSuccess: (data) => {
-      if (!data.token) {
-        return navigate("/sign-in");
-      }
       setToken(data.token);
       navigate("/");
     },
   });
-
-  const fields = isSignUp ? signUpFields : signInFields;
 
   const handleChange = (e) => {
     setFormData({
@@ -68,7 +44,7 @@ const Auth = ({ isSignUp }) => {
 
   return (
     <main className={styles.container}>
-      <h1 className={styles.heading}>{isSignUp ? "Sign up" : "Sign in"}</h1>
+      <h1 className={styles.heading}>Sign in</h1>
 
       <div className={styles.formContainer}>
         {error && <ErrorAlert error={error} className={styles.error} />}
@@ -90,19 +66,9 @@ const Auth = ({ isSignUp }) => {
             disabled={isLoading}
             className={styles.submitButton}
           >
-            {isSignUp ? "Sign up" : "Sign in"}
+            Sign in
           </button>
         </form>
-
-        {isSignUp ? (
-          <p className={styles.message}>
-            Already have an account? <Link to="/sign-in">Sign in</Link>
-          </p>
-        ) : (
-          <p className={styles.message}>
-            Don't have an account? <Link to="/sign-up">Sign up</Link>
-          </p>
-        )}
       </div>
     </main>
   );

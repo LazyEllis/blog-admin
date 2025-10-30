@@ -16,11 +16,7 @@ const routes = [
   },
   {
     path: "/sign-in",
-    element: <Auth isSignUp={false} key="sign-in" />,
-  },
-  {
-    path: "/sign-up",
-    element: <Auth isSignUp={true} key="sign-up" />,
+    element: <Auth />,
   },
 ];
 
