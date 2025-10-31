@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { useMutation } from "../hooks/useMutation";
-import { useToken } from "../hooks/useToken";
+import { useAuth } from "../hooks/useAuth";
 import { generateToken } from "../lib/BlogService";
 import Input from "../components/Input";
 import ErrorAlert from "../components/ErrorAlert";
@@ -13,16 +13,14 @@ const fields = [
 ];
 
 const Auth = () => {
-  const navigate = useNavigate();
-  const { token, setToken } = useToken();
+  const { login } = useAuth();
 
   const [formData, setFormData] = useState({ email: "", password: "" });
 
   const { mutate, error, isLoading } = useMutation({
     mutationFn: generateToken,
     onSuccess: (data) => {
-      setToken(data.token);
-      navigate("/");
+      login(data.token);
     },
   });
 
@@ -37,10 +35,6 @@ const Auth = () => {
     e.preventDefault();
     mutate(formData);
   };
-
-  if (token) {
-    return <Navigate to="/" />;
-  }
 
   return (
     <main className={styles.container}>

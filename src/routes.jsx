@@ -1,13 +1,14 @@
+import { Navigate } from "react-router-dom";
 import Layout from "./routes/Layout";
 import Auth from "./routes/Auth";
 import Error from "./routes/Error";
 import Home from "./routes/Home";
 import Post from "./routes/Post";
 
-const routes = [
+const routes = (isAuth) => [
   {
     path: "/",
-    element: <Layout />,
+    element: isAuth ? <Layout /> : <Navigate to="/sign-in" />,
     errorElement: <Error />,
     children: [
       { index: true, element: <Home /> },
@@ -16,7 +17,7 @@ const routes = [
   },
   {
     path: "/sign-in",
-    element: <Auth />,
+    element: !isAuth ? <Auth /> : <Navigate to="/" />,
   },
 ];
 

@@ -15,8 +15,12 @@ const setToken = (newValue) => {
   window.dispatchEvent(new StorageEvent("storage", { key: "token", newValue }));
 };
 
-export const useToken = () => {
+export const useAuth = () => {
   const token = useSyncExternalStore(subscribe, getSnapshot);
 
-  return { token, setToken };
+  const login = (token) => setToken(token);
+
+  const logout = () => setToken(null);
+
+  return { isAuth: !!token, login, logout };
 };

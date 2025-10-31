@@ -1,18 +1,12 @@
-import { Link, Navigate, Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet, Navigate } from "react-router-dom";
 import { useQuery } from "../hooks/useQuery";
-import { useToken } from "../hooks/useToken";
+import { useAuth } from "../hooks/useAuth";
 import { getProfile } from "../lib/BlogService";
 import styles from "../styles/Layout.module.css";
 import NavMenu from "../components/NavMenu";
 
 const Layout = () => {
-  const { token, setToken } = useToken();
-  const navigate = useNavigate();
-
-  const handleSignOut = () => {
-    setToken(null);
-    navigate("/sign-in");
-  };
+  const { logout } = useAuth();
 
   const {
     data: user,
@@ -21,11 +15,9 @@ const Layout = () => {
   } = useQuery({
     queryFn: getProfile,
     onError: (error) => {
-      if (error.message === "Unauthorized") handleSignOut();
+      if (error.message === "Unauthorized") logout();
     },
   });
-
-  if (!token) return <Navigate to="/sign-in" />;
 
   return (
     <>
@@ -35,12 +27,7 @@ const Layout = () => {
             Good Vibrations
           </Link>
 
-          <NavMenu
-            user={user}
-            isLoading={isLoading}
-            error={error}
-            onSignOut={handleSignOut}
-          />
+          <NavMenu user={user} isLoading={isLoading} error={error} />
         </nav>
       </header>
       <main className={styles.main}>

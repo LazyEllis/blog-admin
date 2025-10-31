@@ -1,12 +1,15 @@
 import { CircleUser } from "lucide-react";
+import { useAuth } from "../hooks/useAuth";
 import { Menu, MenuButton, MenuItem, MenuItems } from "./Dropdown";
 import Loader from "./Loader";
 import styles from "../styles/NavMenu.module.css";
 
-const NavMenu = ({ user, error, isLoading, onSignOut }) => {
+const NavMenu = ({ user, error, isLoading }) => {
+  const { logout } = useAuth();
+
   if (isLoading || error) return <Loader />;
 
-  if (!user.isAdmin) onSignOut();
+  if (!user.isAdmin) logout();
 
   return (
     <Menu>
@@ -20,7 +23,7 @@ const NavMenu = ({ user, error, isLoading, onSignOut }) => {
           <div>{user.name}</div>
         </MenuItem>
         <MenuItem>
-          <button onClick={onSignOut} className={styles.dropdownLink}>
+          <button onClick={logout} className={styles.dropdownLink}>
             Sign out
           </button>
         </MenuItem>
