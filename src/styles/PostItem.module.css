@@ -1,0 +1,48 @@
+.post {
+  padding-block: 32px;
+  border-bottom: 1px solid var(--color-input);
+}
+
+.postHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.postTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+
+  @media (width >= 48rem) {
+    font-size: 1.5rem;
+  }
+}
+
+.metadata {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-top: 12px;
+  font-size: 0.875rem;
+  color: var(--color-accent);
+}
+
+.iconData {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.action,
+.delete {
+  cursor: pointer;
+
+  &:hover {
+    color: var(--color-text);
+  }
+}
+
+.delete {
+  --color-text: #9f0712;
+  color: #c94a4a;
+}

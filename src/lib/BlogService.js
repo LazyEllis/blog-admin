@@ -44,6 +44,8 @@ export const listPosts = () => request("/posts");
 
 export const getPost = (id) => request(`/posts/${id}`);
 
+export const deletePost = (id) => request(`/posts/${id}`, { method: "DELETE" });
+
 export const getPostComments = (postId) => request(`/posts/${postId}/comments`);
 
 export const createPostComment = ({ postId, commentData }) =>

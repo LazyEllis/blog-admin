@@ -1,14 +1,27 @@
-import { Link } from "react-router-dom";
-import { MessageCircle } from "lucide-react";
-import { format } from "date-fns";
+import { useState } from "react";
 import { useQuery } from "../hooks/useQuery";
 import { listPosts } from "../lib/BlogService";
 import ErrorAlert from "../components/ErrorAlert";
+import Post from "../components/Post";
 import Loader from "../components/Loader";
 import styles from "../styles/Home.module.css";
 
 const Home = () => {
-  const { data: posts, error, isLoading } = useQuery({ queryFn: listPosts });
+  const [selectedId, setSelectedId] = useState(null);
+
+  const {
+    data: posts,
+    error,
+    isLoading,
+    setData: setPosts,
+  } = useQuery({ queryFn: listPosts });
+
+  const handlePostDelete = (deletedComment) => {
+    setPosts(posts.filter((post) => post.id !== deletedComment.id));
+    setSelectedId(null);
+  };
+
+  const handleCancel = () => setSelectedId(null);
 
   if (isLoading) return <Loader isRouteLoader={true} />;
 
@@ -21,19 +34,14 @@ const Home = () => {
       </div>
       <div className={styles.container}>
         {posts.map((post) => (
-          <article className={styles.post} key={post.id}>
-            <div>
-              <Link to={`/posts/${post.id}`}>
-                <h2 className={styles.postTitle}>{post.title}</h2>
-              </Link>
-            </div>
-            <div className={styles.metadata}>
-              <div>{format(post.createdAt, "MMM d, y")}</div>
-              <div className={styles.iconData}>
-                <MessageCircle size={16} /> {post._count.comments}
-              </div>
-            </div>
-          </article>
+          <Post
+            post={post}
+            isSelected={selectedId === post.id}
+            onSelect={() => setSelectedId(post.id)}
+            onDelete={handlePostDelete}
+            onCancel={handleCancel}
+            key={post.id}
+          />
         ))}
       </div>
     </>
