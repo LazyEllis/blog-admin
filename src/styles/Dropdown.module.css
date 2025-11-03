@@ -3,9 +3,13 @@
   color: var(--color-accent);
 }
 
-.menuButton:hover {
-  color: var(--color-text);
-  cursor: pointer;
+.menuButton {
+  display: block;
+
+  &:hover {
+    color: var(--color-text);
+    cursor: pointer;
+  }
 }
 
 .menuItems {
