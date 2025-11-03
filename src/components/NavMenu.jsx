@@ -24,7 +24,10 @@ const NavMenu = ({ user, error, isLoading }) => {
           <div>{user.name}</div>
         </MenuItem>
         <MenuItem>
-          <Link to="/posts/new" className={styles.dropdownLink}>
+          <Link
+            to="/posts/new"
+            className={`${styles.dropdownLink} ${styles.divider}`}
+          >
             New Post
           </Link>
         </MenuItem>
