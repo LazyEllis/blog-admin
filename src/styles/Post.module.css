@@ -27,6 +27,9 @@
 }
 
 .metadata {
+  display: flex;
+  align-items: center;
+  gap: 16px;
   font-size: 0.875rem;
   color: var(--color-accent);
   margin-top: 12px;

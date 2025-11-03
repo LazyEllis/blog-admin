@@ -3,6 +3,7 @@ import { format } from "date-fns";
 import { useQuery } from "../hooks/useQuery";
 import { getPost, getPostComments } from "../lib/BlogService";
 import CommentSection from "../components/CommentSection";
+import Badge from "../components/Badge";
 import ErrorAlert from "../components/ErrorAlert";
 import Loader from "../components/Loader";
 import styles from "../styles/Post.module.css";
@@ -47,6 +48,9 @@ const Post = () => {
         <header className={styles.header}>
           <h1 className={styles.title}>{post.title}</h1>
           <div className={styles.metadata}>
+            <Badge variant={post.isPublished ? "success" : "warning"}>
+              {post.isPublished ? "PUBLISHED" : "UNPUBLISHED"}
+            </Badge>
             <div>{format(post.createdAt, "MMM d, y")}</div>
           </div>
         </header>
