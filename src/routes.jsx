@@ -4,6 +4,7 @@ import Auth from "./routes/Auth";
 import Error from "./routes/Error";
 import Home from "./routes/Home";
 import Post from "./routes/Post";
+import PostForm from "./routes/PostForm";
 
 const routes = (isAuth) => [
   {
@@ -13,6 +14,7 @@ const routes = (isAuth) => [
     children: [
       { index: true, element: <Home /> },
       { path: "/posts/:id", element: <Post /> },
+      { path: "/posts/new", element: <PostForm /> },
     ],
   },
   {

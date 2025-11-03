@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { CircleUser } from "lucide-react";
 import { useAuth } from "../hooks/useAuth";
 import { Menu, MenuButton, MenuItem, MenuItems } from "./Dropdown";
@@ -21,6 +22,11 @@ const NavMenu = ({ user, error, isLoading }) => {
       <MenuItems>
         <MenuItem>
           <div>{user.name}</div>
+        </MenuItem>
+        <MenuItem>
+          <Link to="/posts/new" className={styles.dropdownLink}>
+            New Post
+          </Link>
         </MenuItem>
         <MenuItem>
           <button onClick={logout} className={styles.dropdownLink}>
