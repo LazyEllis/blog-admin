@@ -1,14 +1,20 @@
-import { useParams } from "react-router-dom";
+import { useState } from "react";
+import { Link, useParams, useNavigate } from "react-router-dom";
+import { Ellipsis } from "lucide-react";
 import { format } from "date-fns";
 import { useQuery } from "../hooks/useQuery";
-import { getPost, getPostComments } from "../lib/BlogService";
+import { useMutation } from "../hooks/useMutation";
+import { getPost, getPostComments, deletePost } from "../lib/BlogService";
+import { Menu, MenuButton, MenuItems, MenuItem } from "../components/Dropdown";
 import CommentSection from "../components/CommentSection";
 import Badge from "../components/Badge";
+import DeleteConfirmation from "../components/DeleteConfirmation";
 import ErrorAlert from "../components/ErrorAlert";
 import Loader from "../components/Loader";
 import styles from "../styles/Post.module.css";
 
 const Post = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const {
     data: post,
@@ -21,6 +27,27 @@ const Post = () => {
     isLoading: areCommentsLoading,
     setData: setComments,
   } = useQuery({ queryFn: () => getPostComments(id) });
+
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const mutation = useMutation({
+    mutationFn: deletePost,
+    onSuccess: () => {
+      navigate("/");
+    },
+  });
+
+  const handleDelete = () => {
+    mutation.mutate(id);
+  };
+
+  const handleOpen = () => {
+    setIsDeleting(true);
+  };
+
+  const handleClose = () => {
+    setIsDeleting(false);
+  };
 
   const handleCommentCreate = (comment) => {
     setComments([comment, ...comments]);
@@ -46,7 +73,27 @@ const Post = () => {
     <>
       <article className={styles.article}>
         <header className={styles.header}>
-          <h1 className={styles.title}>{post.title}</h1>
+          <div className={styles.titleStrip}>
+            <h1 className={styles.title}>{post.title}</h1>
+            <Menu>
+              <MenuButton>
+                <span className="sr-only">Open post actions</span>
+                <Ellipsis />
+              </MenuButton>
+              <MenuItems>
+                <MenuItem>
+                  <Link className={styles.action} to={`/posts/${post.id}/edit`}>
+                    Edit
+                  </Link>
+                </MenuItem>
+                <MenuItem>
+                  <button className={styles.delete} onClick={handleOpen}>
+                    Delete
+                  </button>
+                </MenuItem>
+              </MenuItems>
+            </Menu>
+          </div>
           <div className={styles.metadata}>
             <Badge variant={post.isPublished ? "success" : "warning"}>
               {post.isPublished ? "PUBLISHED" : "UNPUBLISHED"}
@@ -56,6 +103,15 @@ const Post = () => {
         </header>
         <p>{post.content}</p>
       </article>
+      {isDeleting && (
+        <DeleteConfirmation
+          resource="post"
+          onClose={handleClose}
+          onDelete={handleDelete}
+          error={mutation.error}
+          isLoading={mutation.isLoading}
+        />
+      )}
       <CommentSection
         className={styles.comments}
         comments={comments}

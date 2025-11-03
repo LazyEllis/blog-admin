@@ -26,11 +26,31 @@
   font-weight: 700;
 }
 
+.titleStrip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .metadata {
   display: flex;
   align-items: center;
+  margin-top: 12px;
   gap: 16px;
   font-size: 0.875rem;
   color: var(--color-accent);
-  margin-top: 12px;
+}
+
+.action,
+.delete {
+  cursor: pointer;
+
+  &:hover {
+    color: var(--color-text);
+  }
+}
+
+.delete {
+  --color-text: #9f0712;
+  color: #c94a4a;
 }
