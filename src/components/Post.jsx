@@ -35,6 +35,11 @@ const Post = ({ post, isSelected, onSelect, onDelete, onCancel }) => {
 
               <MenuItems>
                 <MenuItem>
+                  <Link className={styles.action} to={`/posts/${post.id}/edit`}>
+                    Edit
+                  </Link>
+                </MenuItem>
+                <MenuItem>
                   <button className={styles.delete} onClick={onSelect}>
                     Delete
                   </button>
