@@ -54,3 +54,7 @@
   --color-text: #9f0712;
   color: #c94a4a;
 }
+
+.content > * {
+  all: revert;
+}

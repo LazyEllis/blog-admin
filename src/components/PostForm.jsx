@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { Editor } from "@tinymce/tinymce-react";
 import { useMutation } from "../hooks/useMutation";
 import { createPost, editPost } from "../lib/BlogService";
 import ErrorAlert from "../components/ErrorAlert";
@@ -9,13 +10,9 @@ const PostForm = ({ postData }) => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const [post, setPost] = useState(
-    postData ?? {
-      title: "",
-      content: "",
-      isPublished: false,
-    },
-  );
+  const editorRef = useRef(null);
+  const [title, setTitle] = useState(postData.title ?? "");
+  const [isPublished, setIsPublished] = useState(postData.isPublished ?? false);
 
   const { mutate, error, isLoading } = useMutation({
     mutationFn: !id ? createPost : editPost,
@@ -24,22 +21,21 @@ const PostForm = ({ postData }) => {
     },
   });
 
-  const handleValueChange = (e) => {
-    setPost({
-      ...post,
-      [e.target.name]: e.target.value,
-    });
+  const handleChange = (e) => {
+    setTitle(e.target.value);
   };
 
-  const handleCheckChange = (e) => {
-    setPost({
-      ...post,
-      [e.target.name]: e.target.checked,
-    });
+  const handleCheck = (e) => {
+    setIsPublished(e.target.checked);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const post = {
+      title,
+      content: editorRef.current?.getContent(),
+      isPublished,
+    };
     mutate(!id ? post : { postId: id, postData: post });
   };
 
@@ -56,25 +52,54 @@ const PostForm = ({ postData }) => {
             type="text"
             name="title"
             id="title"
-            value={post.title}
-            onChange={handleValueChange}
+            value={title}
+            onChange={handleChange}
             className={styles.formControl}
             required
           />
         </div>
 
         <div className={styles.formSection}>
-          <label htmlFor="content" className={styles.label}>
+          <label
+            htmlFor="content"
+            className={`${styles.label} ${styles.editorLabel}`}
+          >
             Content
           </label>
-          <textarea
-            name="content"
+
+          <Editor
             id="content"
-            value={post.content}
-            onChange={handleValueChange}
-            className={styles.formControl}
-            rows={3}
-            required
+            apiKey={import.meta.env.VITE_TINYMCE_API_KEY}
+            onInit={(_evt, editor) => (editorRef.current = editor)}
+            initialValue={postData.content ?? ""}
+            init={{
+              menubar: false,
+              plugins: [
+                "advlist",
+                "autolink",
+                "lists",
+                "link",
+                "image",
+                "charmap",
+                "preview",
+                "anchor",
+                "searchreplace",
+                "visualblocks",
+                "code",
+                "fullscreen",
+                "insertdatetime",
+                "media",
+                "table",
+                "code",
+                "help",
+                "wordcount",
+              ],
+              toolbar:
+                "undo redo | blocks | " +
+                "bold italic forecolor | alignleft aligncenter " +
+                "alignright alignjustify | bullist numlist outdent indent | " +
+                "removeformat | help",
+            }}
           />
         </div>
 
@@ -86,8 +111,8 @@ const PostForm = ({ postData }) => {
               type="checkbox"
               name="isPublished"
               id="isPublished"
-              checked={post.isPublished}
-              onChange={handleCheckChange}
+              checked={isPublished}
+              onChange={handleCheck}
             />
           </div>
         </div>
@@ -97,7 +122,7 @@ const PostForm = ({ postData }) => {
           disabled={isLoading}
           className={styles.submitButton}
         >
-          {post.isPublished ? "Publish" : "Save As Draft"}
+          {isPublished ? "Publish" : "Save As Draft"}
         </button>
       </form>
     </div>

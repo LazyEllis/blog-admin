@@ -28,6 +28,10 @@
   display: block;
 }
 
+.editorLabel {
+  margin-bottom: calc(var(--spacing) * 2);
+}
+
 .formControl {
   display: block;
   background-color: var(--color-input);

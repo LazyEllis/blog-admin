@@ -6,6 +6,7 @@ import { useQuery } from "../hooks/useQuery";
 import { useMutation } from "../hooks/useMutation";
 import { getPost, getPostComments, deletePost } from "../lib/BlogService";
 import { Menu, MenuButton, MenuItems, MenuItem } from "../components/Dropdown";
+import parse from "html-react-parser";
 import CommentSection from "../components/CommentSection";
 import Badge from "../components/Badge";
 import DeleteConfirmation from "../components/DeleteConfirmation";
@@ -101,7 +102,7 @@ const Post = () => {
             <div>{format(post.createdAt, "MMM d, y")}</div>
           </div>
         </header>
-        <p>{post.content}</p>
+        <div className={styles.content}>{parse(post.content)}</div>
       </article>
       {isDeleting && (
         <DeleteConfirmation
