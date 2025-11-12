@@ -11,8 +11,10 @@ const PostForm = ({ postData }) => {
   const navigate = useNavigate();
 
   const editorRef = useRef(null);
-  const [title, setTitle] = useState(postData.title ?? "");
-  const [isPublished, setIsPublished] = useState(postData.isPublished ?? false);
+  const [title, setTitle] = useState(postData?.title || "");
+  const [isPublished, setIsPublished] = useState(
+    postData?.isPublished || false,
+  );
 
   const { mutate, error, isLoading } = useMutation({
     mutationFn: !id ? createPost : editPost,
@@ -71,7 +73,7 @@ const PostForm = ({ postData }) => {
             id="content"
             apiKey={import.meta.env.VITE_TINYMCE_API_KEY}
             onInit={(_evt, editor) => (editorRef.current = editor)}
-            initialValue={postData.content ?? ""}
+            initialValue={postData?.content || ""}
             init={{
               menubar: false,
               plugins: [
